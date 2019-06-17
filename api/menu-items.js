@@ -16,9 +16,7 @@ itemsRouter.param('menuId', (req, res, next, menuId) => {
 });
 
 itemsRouter.get('/', (req, res, next) => {
-    const menuId = req.params.menuId;
-    console.log(`menu items router: menuId = ` + menuId);
-    
+    const menuId = req.params.menuId; 
     db.all(`SELECT * FROM MenuItem WHERE menu_id = ${menuId}`, (err, rows) => {
         if (err) {next(err)};
         return res.status(200).json({menuItems: rows});
@@ -60,7 +58,6 @@ itemsRouter.param('menuItemId', (req, res, next, menuItemId) => {
 });
 
 itemsRouter.put('/:menuItemId', (req, res, next) => {
-    //console.log('req.body.menuItem: ' + JSON.stringify(req.body.menuItem));
     const menuId = req.params.menuId;
     const {name, description, inventory, price} = req.body.menuItem;
     if (!name || !description || !inventory || !price) {
@@ -93,4 +90,5 @@ itemsRouter.delete('/:menuItemId', (req, res, next) => {
         res.sendStatus(204);
     });
 });
+
 module.exports = itemsRouter;
