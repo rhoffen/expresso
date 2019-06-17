@@ -1,8 +1,8 @@
 const express = require('express');
 const menusRouter = express.Router();
 
-// const itemsRouter = require('./menu-items.js');
-// menusRouter.use('/:menuId/menu-items', itemsRouter);
+const itemsRouter = require('./menu-items.js');
+menusRouter.use('/:menuId/menu-items', itemsRouter);
 
 const sqlite3 = require('sqlite3');
 const db = new sqlite3.Database(process.env.TEST_DATABASE || './database.sqlite');
@@ -70,7 +70,7 @@ menusRouter.delete('/:menuId', (req, res, next) => {
         if (row) {
             return res.sendStatus(400);
         } else {
-            db.run(`DELETE FROM Menu WHERE id = $id`, {$id: id}, err => {
+            db.run(`DELETE FROM Menu WHERE id = ${id}`, err => {
                 return res.sendStatus(204);
             });
         }
